@@ -118,4 +118,4 @@ class DefaultChannels:
 
 bot.default_channels = DefaultChannels('default_channels.json')
 
-bot.run('NDQ5MjM2NTcyNDkyMDA1Mzk2.Dehz-g.zE4kcRzRGV3y5Wn-OIN0bl2Dzo0')
+bot.run()
