@@ -41,16 +41,27 @@ class Moderation():
         await ctx.send('<#{}>'.format(channel) if channel else 'None set')
     
     @client.event
-    async def on_member_join(self,ctx,member):
+    async def on_member_join(self,member):
         guild = member.guild
-        channel_id = await ctx.bot.default_channels.get_channel(ctx.guild)
-        embed = discord.Embed(title="{}#{}".format(member.name,member.discriminator), color=16721408)
+        channel_id = await self.bot.default_channels.get_channel(guild)
+        embed = discord.Embed(title="User Joined", color=16721408)
         embed.set_thumbnail(url=member.avatar_url_as(format=None,static_format='webp',size=1024))
+        embed.add_field(name='User:', value=member.mention, inline=True)
         embed.add_field(name="User ID:", value=member.id, inline=True)
+        embed.add_field(name="Bot:", value=member.bot, inline=False)
         embed.add_field(name="Created At:", value=member.created_at, inline=True)
-        embed.add_field(name="Bot:", value=member.bot, inline=True)
-        embed.set_footer(text="Joined At: {}".format(member.joined_at))
-        await guild.get_channel(channel_id).send(content='User Joined',embed=embed)
+        embed.add_field(name="Joined At:", value=member.joined_at, inline=True)
+        await guild.get_channel(channel_id).send(embed=embed)
+    
+    @client.event
+    async def on_member_remove(self,member):
+        guild = member.guild
+        channel_id = await self.bot.default_channels.get_channel(guild)
+        embed = discord.Embed(title="User Left", color=16721408)
+        embed.set_thumbnail(url=member.avatar_url_as(format=None,static_format='webp',size=1024))
+        embed.add_field(name='User:', value=member.mention, inline=True)
+        embed.add_field(name="User ID:", value=member.id, inline=True)
+        await guild.get_channel(channel_id).send(embed=embed)
 
     @commands.command(pass_context=True,no_pm=True)
     @commands.has_permissions(kick_members=True)
@@ -61,8 +72,9 @@ class Moderation():
         channel_id = await ctx.bot.default_channels.get_channel(ctx.guild)
         td = datetime.datetime.now()
         td = td.strftime('%m-%d-%Y, %I:%M:%S %p EST')
-        embed = discord.Embed(title="{}#{}".format(user.name,user.discriminator), color=16721408)
+        embed = discord.Embed(title="User Kicked", color=16721408)
         embed.set_thumbnail(url=user.avatar_url_as(format=None,static_format='webp',size=1024))
+        embed.add_field(name='User:', value=user.mention, inline=True)
         embed.add_field(name='Reason:', value=reason, inline=True)
         embed.add_field(name='Responsible Moderator:', value=author, inline=False)
         embed.set_footer(text=td)
@@ -85,14 +97,15 @@ class Moderation():
         channel_id = await ctx.bot.default_channels.get_channel(ctx.guild)
         td = datetime.datetime.now()
         td = td.strftime('%m-%d-%Y, %I:%M:%S %p EST')
-        embed = discord.Embed(title="{}#{}".format(user.name,user.discriminator), color=16721408)
+        embed = discord.Embed(title="User Warned", color=16721408)
         embed.set_thumbnail(url=user.avatar_url_as(format=None,static_format='webp',size=1024))
+        embed.add_field(name='User:', value=user.mention, inline=True)
         embed.add_field(name='Reason:', value=reason, inline=True)
         embed.add_field(name='Responsible Moderator:', value=author.mention, inline=False)
         embed.set_footer(text=td)
         if reason is not None:
             try:
-                await guild.get_channel(channel_id).send(content='User Warned',embed=embed)
+                await guild.get_channel(channel_id).send(embed=embed)
                 await user.send(content='You have been warned in {} for {}'.format(guild,reason), tts=False, embed=None)
             except discord.errors.Forbidden:
                 await ctx.send('Either I do not have permission, or you do not')
@@ -107,9 +120,9 @@ class Moderation():
         channel_id = await ctx.bot.default_channels.get_channel(ctx.guild)
         td = datetime.datetime.now()
         td = td.strftime('%m-%d-%Y, %I:%M:%S %p EST')
-        embed = discord.Embed(title="{}#{}".format(user.name,user.discriminator), color=16721408)
+        embed = discord.Embed(title="User Banned", color=16721408)
         embed.set_thumbnail(url=user.avatar_url_as(format=None,static_format='webp',size=1024))
-        embed.add_field(name='Reason:', value=reason, inline=True)
+        embed.add_field(name='User:', value=user.mention, inline=True)
         embed.add_field(name='Responsible Moderator:', value=author, inline=False)
         embed.set_footer(text=td)
         if reason is not None:
