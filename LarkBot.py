@@ -8,6 +8,8 @@ import datetime
 import asyncio
 import time
 import logging
+import aiohttp
+import dbl
 from discord import User
 from discord.ext.commands import Bot
 from pypubg import core
@@ -16,7 +18,7 @@ from time import gmtime
 logging.basicConfig(level=logging.INFO)
 
 description = 'LarkBot Commands'
-startup_extensions = ['Moderation', 'Fun', 'Utility', 'Owner', 'General', 'YouTube', 'ServerManagement', 'Voice', 'Searches','Errors',]
+startup_extensions = ['Moderation', 'Fun', 'Utility', 'Owner', 'General', 'Voice', 'Searches','Errors','DiscordBotsOrgAPI',]
 bot = commands.Bot(command_prefix='!', description=description)
 
 @bot.event
