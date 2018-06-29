@@ -49,6 +49,22 @@ class Owner():
         'Shuts down the bot'
         await ctx.send('Off into oblivion!')
         await self.bot.close()
+    
+    @commands.command()
+    @commands.is_owner()
+    async def name(self,ctx,*, new_name:str):
+        'Changes the bot\'s name'
+        await self.bot.user.edit(username=new_name)
+        await ctx.send("Name changed")
+    
+    @commands.command()
+    @commands.is_owner()
+    async def guilds(self,ctx):
+        'Lists all the servers the bot is in'
+        guilds = list(self.bot.guilds)
+        await ctx.send("I'm in {} servers".format(str(len(self.bot.guilds))))
+        for x in range (len(guilds)):
+            await ctx.send(" {} - {} - {}".format(guilds[x-1].name,guilds[x-1].id, await self.bot.guilds[x-1].invites()))
 
 
 def setup(bot):
