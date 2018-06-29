@@ -18,9 +18,6 @@ from time import gmtime
 class General():
     def __init__(self, bot):
         self.bot = bot
-    
-    def check_if_it_is_me(self,ctx):
-        return ctx.message.author.id == 197096248413650946
 
     @commands.command(pass_context=True)
     async def choose(self, ctx, *choices: str):
@@ -134,6 +131,7 @@ class General():
             df.to_excel(writer,sheet_name="Sheet 1 - jokes")
             writer.save()
 
+            
             await author_id.send("Your joke has been approved!")
         except asyncio.TimeoutError:
             await ctx.send ('blah')
