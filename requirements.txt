@@ -1,6 +1,6 @@
 git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py[voice]
 aiofiles==0.3.2
-aiohttp==3.3.2
+aiohttp==3.7.4
 astunparse-noparen==1.5.6
 async-timeout==3.0.0
 async2rewrite==0.1.7
