@@ -27,7 +27,7 @@ idna-ssl==1.0.1
 jdcal==1.4
 modules==1.0.0
 multidict==4.3.1
-numpy==1.14.5
+numpy==1.22.0
 openpyxl==2.5.4
 pandas==0.23.1
 pipenv==2018.6.25
